@@ -1,0 +1,15 @@
+version: '2'
+services:
+  cassandra:
+    image: cassandra:3.11.4
+    networks:
+      metrics-processor-cassandra:
+        ipv4_address: 172.22.0.2
+networks:
+  metrics-processor-cassandra:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.22.0.0/16
+          gateway: 172.22.0.1

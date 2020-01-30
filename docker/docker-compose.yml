@@ -1,0 +1,33 @@
+version: '2'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      metrics-processor-net:
+        ipv4_address: 172.21.0.2
+  kafka:
+    image: confluentinc/cp-kafka:5.4.0
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.21.0.3:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      metrics-processor-net:
+        ipv4_address: 172.21.0.3
+networks:
+  metrics-processor-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.21.0.0/16
+          gateway: 172.21.0.1
