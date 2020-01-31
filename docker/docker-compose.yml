@@ -23,6 +23,20 @@ services:
     networks:
       metrics-processor-net:
         ipv4_address: 172.21.0.3
+  schema-registry:
+    image: confluentinc/cp-schema-registry:5.4.0
+    depends_on:
+      - zookeeper
+    ports:
+      - 8081:8081
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: 172.21.0.4
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_DEBUG: "true"
+    networks:
+      metrics-processor-net:
+        ipv4_address: 172.21.0.4
 networks:
   metrics-processor-net:
     driver: bridge

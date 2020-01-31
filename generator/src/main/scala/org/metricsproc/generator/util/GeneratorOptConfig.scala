@@ -2,7 +2,11 @@ package org.metricsproc.generator.util
 
 import scopt.{OParser, OParserBuilder}
 
-case class GeneratorOptConfig(duration: Option[Int] = None, sampleRate: Option[Int] = None, kafkaServer: Option[String] = None)
+case class GeneratorOptConfig(duration: Option[Int] = None,
+                              sampleRate: Option[Int] = None,
+                              kafkaServer: Option[String] = None,
+                              kafkaTopic: Option[String] = None,
+                              schemaRegistryUrl: Option[String] = None)
 
 object GeneratorOptConfig {
 
@@ -21,7 +25,13 @@ object GeneratorOptConfig {
         .text("requests per sec"),
       opt[String]('k', "kafkaServer")
         .action((x, c) => c.copy(kafkaServer = Some(x)))
-        .text("requests per sec")
+        .text("Kafka bootstrap server"),
+      opt[String]('t', "kafkaTopic")
+        .action((x, c) => c.copy(kafkaTopic = Some(x)))
+        .text("Kafka topic"),
+      opt[String]('r', "schemaRegistryUrl")
+        .action((x, c) => c.copy(schemaRegistryUrl = Some(x)))
+        .text("Schema registry URL")
     )
   }
 }

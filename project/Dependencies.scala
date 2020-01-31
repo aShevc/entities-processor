@@ -7,7 +7,9 @@ object Dependencies {
     "org.apache.kafka" %% "kafka" % "2.4.0",
     "com.typesafe" % "config" % "1.4.0",
     "org.slf4j" % "slf4j-log4j12" % "1.7.30",
-    "org.apache.logging.log4j" % "log4j-core" % "2.13.0"
+    "org.apache.logging.log4j" % "log4j-core" % "2.13.0",
+    "io.confluent" % "kafka-avro-serializer" % "5.3.0",
+    "org.apache.avro" % "avro" % "1.9.1"
   )
 
   val generatorDependencies = Seq(
@@ -15,6 +17,6 @@ object Dependencies {
   )
 
   val cassandraWorkerDependencies = Seq(
-
+    "com.github.scopt" %% "scopt" % "4.0.0-RC2"
   )
 }
