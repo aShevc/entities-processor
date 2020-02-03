@@ -16,7 +16,12 @@ object Dependencies {
     "com.github.scopt" %% "scopt" % "4.0.0-RC2"
   )
 
+  val workerDependencies = Seq(
+
+  )
+
   val cassandraWorkerDependencies = Seq(
-    "com.github.scopt" %% "scopt" % "4.0.0-RC2"
+    "com.github.scopt" %% "scopt" % "4.0.0-RC2",
+    "com.outworkers" %% "phantom-dsl" % "2.59.0" exclude("org.slf4j", "log4j-over-slf4j")
   )
 }

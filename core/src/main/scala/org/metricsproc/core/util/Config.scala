@@ -5,6 +5,8 @@ import scala.jdk.CollectionConverters._
 
 trait Config {
 
+  def getConfigPrefix: String
+
   lazy val config: TypesafeConfig = ConfigFactory.load()
 
   // config helpers

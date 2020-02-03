@@ -15,9 +15,16 @@ lazy val generator = (project in file("generator"))
   libraryDependencies ++= (coreDependencies ++ generatorDependencies)
 ).dependsOn(core % "test->test;compile->compile").aggregate(core)
 
+lazy val worker = (project in file("worker"))
+  .settings(
+    Commons.settings: _*
+  ).settings(
+  libraryDependencies ++= (coreDependencies ++ workerDependencies)
+).dependsOn(core % "test->test;compile->compile").aggregate(core)
+
 lazy val cassandraWorker = (project in file("cassandra-worker"))
   .settings(
     Commons.settings: _*
   ).settings(
   libraryDependencies ++= (coreDependencies ++ cassandraWorkerDependencies)
-).dependsOn(core % "test->test;compile->compile").aggregate(core)
+).dependsOn(worker % "test->test;compile->compile").aggregate(worker)

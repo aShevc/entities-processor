@@ -1,4 +1,4 @@
-package org.metricsproc.cassandraworker.consumer
+package org.metricsproc.worker.consumer
 
 import java.time.Duration
 import java.util.{Properties, UUID}
@@ -8,16 +8,20 @@ import org.apache.avro.generic.GenericRecord
 import org.apache.avro.specific.SpecificData
 import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord, KafkaConsumer}
 import org.apache.kafka.common.errors.SerializationException
-import org.metricsproc.cassandraworker.util.CassandraWorkerConfig
 import org.metricsproc.metric.Metric
+import org.metricsproc.worker.MetricsWorker
+import org.metricsproc.worker.util.WorkerConfig
 import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 import scala.util.{Failure, Try}
 
-case class KafkaMetricsConsumer(config: CassandraWorkerConfig) extends MetricsConsumer {
+trait KafkaMetricsConsumer extends MetricsConsumer {
+  this: MetricsWorker =>
 
   private val log = LoggerFactory.getLogger(classOf[KafkaMetricsConsumer])
+
+  val config: WorkerConfig
 
   override def consume(): Try[Unit] = {
     log.info(s"Starting Kafka metrics consumer with config:\n$config")
@@ -53,11 +57,7 @@ case class KafkaMetricsConsumer(config: CassandraWorkerConfig) extends MetricsCo
           // which will say what is the message format.
           val record = SpecificData.get.deepCopy(Metric.SCHEMA$, msg.asInstanceOf[ConsumerRecord[String, GenericRecord]].value())
             .asInstanceOf[Metric]
-          if (i % 100 == 0) {
-            log.info(s"Consumed $i messages.\n The last message consumed: $record")
-          }
-
-          log.debug(s"Consumed a message $record")
+          processMetrics(List(record))
         }
       } recover {
         case se: SerializationException =>

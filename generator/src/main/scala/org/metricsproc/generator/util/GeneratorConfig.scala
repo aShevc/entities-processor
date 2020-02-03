@@ -3,13 +3,14 @@ package org.metricsproc.generator.util
 import org.metricsproc.core.util.Config
 
 case class GeneratorConfig(optConfig: GeneratorOptConfig) extends Config {
-  private final val CONFIG_PREFIX = "metricsproc.generator"
 
-  protected final val SAMPLE_RATE = s"$CONFIG_PREFIX.sample-rate"
-  protected final val DURATION = s"$CONFIG_PREFIX.duration"
-  protected final val KAFKA_SERVER = s"$CONFIG_PREFIX.kafka-server"
-  protected final val KAFKA_TOPIC = s"$CONFIG_PREFIX.kafka-topic"
-  protected final val SCHEMA_REGISTRY_URL = s"$CONFIG_PREFIX.schema-registry-url"
+  override def getConfigPrefix: String = "metricsproc.generator"
+
+  protected final val SAMPLE_RATE = s"$getConfigPrefix.sample-rate"
+  protected final val DURATION = s"$getConfigPrefix.duration"
+  protected final val KAFKA_SERVER = s"$getConfigPrefix.kafka-server"
+  protected final val KAFKA_TOPIC = s"$getConfigPrefix.kafka-topic"
+  protected final val SCHEMA_REGISTRY_URL = s"$getConfigPrefix.schema-registry-url"
 
   def getSampleRate: Int = optConfig.sampleRate.map(Some(_)).getOrElse(getInt(SAMPLE_RATE)).getOrElse(100)
   def getDuration: Int = optConfig.duration.map(Some(_)).getOrElse(getInt(DURATION)).getOrElse(10)

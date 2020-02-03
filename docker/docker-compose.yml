@@ -37,6 +37,15 @@ services:
     networks:
       metrics-processor-net:
         ipv4_address: 172.21.0.4
+  cassandra:
+    image: cassandra:3.11.4
+    volumes:
+      - ../cassandra-worker/src/main/resources/cassandra:/opt/metrics-processor/cassandra
+    ports:
+      - 9042:9042
+    networks:
+      metrics-processor-net:
+        ipv4_address: 172.21.0.5
 networks:
   metrics-processor-net:
     driver: bridge
