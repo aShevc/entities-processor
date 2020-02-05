@@ -1,2 +1,2 @@
 # metrics-processor
-Processing random metrics into distributed system, measuring performance
+Processing generic metrics into the distributed system with eventual databse sink
