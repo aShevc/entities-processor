@@ -4,24 +4,19 @@ object Dependencies {
 
   val coreDependencies = Seq(
     "org.scalatest" %% "scalatest" % "3.1.0",
-    "org.apache.kafka" %% "kafka" % "2.4.0",
     "com.typesafe" % "config" % "1.4.0",
     "org.slf4j" % "slf4j-log4j12" % "1.7.30",
     "org.apache.logging.log4j" % "log4j-core" % "2.13.0",
-    "io.confluent" % "kafka-avro-serializer" % "5.3.0",
-    "org.apache.avro" % "avro" % "1.9.1"
-  )
-
-  val generatorDependencies = Seq(
+    "org.apache.avro" % "avro" % "1.9.1",
     "com.github.scopt" %% "scopt" % "4.0.0-RC2"
   )
 
-  val workerDependencies = Seq(
-
+  val kafkaDependencies = Seq(
+    "org.apache.kafka" %% "kafka" % "2.4.0",
+    "io.confluent" % "kafka-avro-serializer" % "5.3.0",
   )
 
-  val cassandraWorkerDependencies = Seq(
-    "com.github.scopt" %% "scopt" % "4.0.0-RC2",
+  val cassandraDependencies = Seq(
     "com.outworkers" %% "phantom-dsl" % "2.59.0" exclude("org.slf4j", "log4j-over-slf4j")
   )
 }

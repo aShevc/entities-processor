@@ -8,23 +8,16 @@ lazy val core = (project in file("core"))
   libraryDependencies ++= coreDependencies
 )
 
-lazy val generator = (project in file("generator"))
+lazy val kafka = (project in file("kafka"))
   .settings(
     Commons.settings: _*
   ).settings(
-  libraryDependencies ++= (coreDependencies ++ generatorDependencies)
+  libraryDependencies ++= (coreDependencies ++ kafkaDependencies)
 ).dependsOn(core % "test->test;compile->compile").aggregate(core)
 
-lazy val worker = (project in file("worker"))
+lazy val cassandra = (project in file("cassandra"))
   .settings(
     Commons.settings: _*
   ).settings(
-  libraryDependencies ++= (coreDependencies ++ workerDependencies)
+  libraryDependencies ++= (coreDependencies ++ cassandraDependencies)
 ).dependsOn(core % "test->test;compile->compile").aggregate(core)
-
-lazy val cassandraWorker = (project in file("cassandra-worker"))
-  .settings(
-    Commons.settings: _*
-  ).settings(
-  libraryDependencies ++= (coreDependencies ++ cassandraWorkerDependencies)
-).dependsOn(worker % "test->test;compile->compile").aggregate(worker)
