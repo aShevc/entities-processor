@@ -9,7 +9,7 @@ trait DefaultMetricsProcDBProvider extends MetricsProcDBProvider with CassandraW
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
-  log.info(s"Initiating Cassandra DB connection with config $getCassandraWriterConfig")
+  log.info(s"Initiating Cassandra DB connection with config\n$getCassandraWriterConfig")
 
   override lazy val database: MetricsProcDB = MetricsProcDB(ContactPoint(getCassandraWriterHost, getCassandraWriterPort)
     .keySpace(

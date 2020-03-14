@@ -1,4 +1,4 @@
-package org.metricsproc.cassandra.worker
+package org.metricsproc.cassandra.writer
 
 import org.metricsproc.cassandra.persistence.metrics.{MetricDTO, MetricsService}
 import org.metricsproc.core.writer.MetricsWriter

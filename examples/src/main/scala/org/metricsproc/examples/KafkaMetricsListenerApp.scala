@@ -1,20 +1,19 @@
-package org.metricsproc.kafka
+package org.metricsproc.examples
 
 import org.metricsproc.core.writer.LogWriter
 import org.metricsproc.kafka.listener.KafkaMetricsListener
 import org.slf4j.LoggerFactory
 
-object KafkaMetricsListener extends App {
+object KafkaMetricsListenerApp extends App {
 
-  private val log = LoggerFactory.getLogger(classOf[KafkaMetricsListener])
+  private val log = LoggerFactory.getLogger(this.getClass)
 
-  object KafkaMetricsListenerApp extends KafkaMetricsListener with LogWriter {
+  object KMLApp extends KafkaMetricsListener with LogWriter {
     override def getConfigPrefix: String = "metricsproc.kafka-listener-app"
   }
 
-  KafkaMetricsListenerApp.listen().recover {
+  KMLApp.listen().recover {
     case exc =>
       log.error(s"An unrecoverable error occurred during record processing", exc)
   }
 }
-

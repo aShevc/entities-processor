@@ -14,14 +14,13 @@ trait MetricsGenerator extends GeneratorConfig {
 
   val rnd = new Random()
 
-  def generate() {
+  def generateWithSampleRate() {
 
-    log.info(s"Started generating metrics with config $getGeneratorConfig")
+    log.info(s"Started generating metrics with config\n$getGeneratorConfig")
 
-    for (sec <- 0 until getDuration) {
+    for (_ <- 0 until getDuration) {
       val time = System.currentTimeMillis()
       for (i <- 0 until getSampleRate) {
-        Thread.sleep(2)
         write(new Metric(s"device_$i",
           rnd.between(1, 10), System.currentTimeMillis()))
       }
@@ -29,5 +28,25 @@ trait MetricsGenerator extends GeneratorConfig {
     }
 
     closeWriter()
+  }
+
+  def generateFixedAmount(): Unit = {
+
+    log.info(s"Started generating metrics with config\n$getGeneratorConfig")
+
+    var counter = 0
+
+    var time = System.currentTimeMillis()
+
+    for (i <- 0 until getMetricsAmount) {
+      write(new Metric(s"device_$counter",
+        rnd.between(1, 10), time))
+      counter += 1
+      if (counter > getDevicesAmount) {
+        counter = 0
+        // assuming devices send metrics once every second
+        time = time + 1000
+      }
+    }
   }
 }

@@ -21,3 +21,12 @@ lazy val cassandra = (project in file("cassandra"))
   ).settings(
   libraryDependencies ++= (coreDependencies ++ cassandraDependencies)
 ).dependsOn(core % "test->test;compile->compile").aggregate(core)
+
+lazy val examples = (project in file("examples"))
+  .settings(
+    Commons.settings: _*
+  ).settings(
+  libraryDependencies ++= (coreDependencies ++ cassandraDependencies ++ kafkaDependencies)
+).dependsOn(core % "test->test;compile->compile").aggregate(core)
+ .dependsOn(kafka % "test->test;compile->compile").aggregate(kafka)
+ .dependsOn(cassandra % "test->test;compile->compile").aggregate(cassandra)
