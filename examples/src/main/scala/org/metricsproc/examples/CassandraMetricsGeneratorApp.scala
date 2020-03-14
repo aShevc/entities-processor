@@ -12,4 +12,8 @@ object CassandraMetricsGeneratorApp extends App {
   }
 
   CMGApp.generateFixedAmount()
+
+  // Somehow although Cassandra connection is being closed, the app keeps running due to some related threads running.
+  // Adding this for now
+  System.exit(0)
 }

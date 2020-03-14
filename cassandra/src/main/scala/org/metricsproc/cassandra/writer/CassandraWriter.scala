@@ -10,4 +10,8 @@ trait CassandraWriter extends MetricsWriter {
   def write(metric: Metric): Unit = {
     saveMetric(MetricDTO(metric))
   }
+
+  override def closeWriter(): Unit = {
+    closeConnection()
+  }
 }

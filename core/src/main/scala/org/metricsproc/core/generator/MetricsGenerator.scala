@@ -48,5 +48,7 @@ trait MetricsGenerator extends GeneratorConfig {
         time = time + 1000
       }
     }
+
+    closeWriter()
   }
 }

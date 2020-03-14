@@ -10,4 +10,9 @@ case class MetricsProcDB(
   object metrics extends Metrics with Connector
 }
 
-trait MetricsProcDBProvider extends DatabaseProvider[MetricsProcDB]
+trait MetricsProcDBProvider extends DatabaseProvider[MetricsProcDB] {
+
+  def closeConnection(): Unit = {
+    database.connector.provider.cluster.close()
+  }
+}
