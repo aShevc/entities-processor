@@ -8,7 +8,9 @@ object Dependencies {
     "org.slf4j" % "slf4j-log4j12" % "1.7.30",
     "org.apache.logging.log4j" % "log4j-core" % "2.13.0",
     "org.apache.avro" % "avro" % "1.9.1",
-    "com.github.scopt" %% "scopt" % "4.0.0-RC2"
+    "com.github.scopt" %% "scopt" % "4.0.0-RC2",
+    "io.kamon" %% "kamon-core" % "2.0.5",
+    "io.kamon" %% "kamon-status-page" % "2.0.5"
   )
 
   val kafkaDependencies = Seq(

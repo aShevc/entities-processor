@@ -4,6 +4,7 @@ import java.time.Duration
 import java.util.{Properties, UUID}
 
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig
+import kamon.Kamon
 import org.apache.avro.generic.GenericRecord
 import org.apache.avro.specific.SpecificData
 import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord, KafkaConsumer}
@@ -20,6 +21,8 @@ trait KafkaMetricsListener extends KafkaListenerConfig {
   this: MetricsWriter =>
 
   private val log = LoggerFactory.getLogger(classOf[KafkaMetricsListener])
+
+  private lazy val readsCounter = Kamon.counter("kafka-reads").withoutTags()
 
   def listen(): Try[Unit] = {
     log.info(s"Starting Kafka metrics listener with config:\n$getKafkaListenerConfig")
@@ -55,7 +58,8 @@ trait KafkaMetricsListener extends KafkaListenerConfig {
           // which will say what is the message format.
           val record = SpecificData.get.deepCopy(Metric.SCHEMA$, msg.asInstanceOf[ConsumerRecord[String, GenericRecord]].value())
             .asInstanceOf[Metric]
-          write(List(record))
+          readsCounter.increment()
+          write(record)
         }
       } recover {
         case se: SerializationException =>

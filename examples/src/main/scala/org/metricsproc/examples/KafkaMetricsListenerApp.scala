@@ -1,10 +1,13 @@
 package org.metricsproc.examples
 
+import kamon.Kamon
 import org.metricsproc.core.writer.LogWriter
 import org.metricsproc.kafka.listener.KafkaMetricsListener
 import org.slf4j.LoggerFactory
 
 object KafkaMetricsListenerApp extends App {
+
+  Kamon.init()
 
   private val log = LoggerFactory.getLogger(this.getClass)
 

@@ -3,6 +3,7 @@ package org.metricsproc.kafka.writer
 import java.util.Properties
 
 import io.confluent.kafka.serializers.KafkaAvroSerializer
+import kamon.Kamon
 import org.apache.kafka.clients.producer.{Callback, KafkaProducer, ProducerRecord, RecordMetadata}
 import org.metricsproc.core.writer.MetricsWriter
 import org.metricsproc.kafka.util.KafkaWriterConfig
@@ -15,6 +16,8 @@ trait KafkaMetricsWriter extends MetricsWriter with KafkaWriterConfig {
 
   val props = new Properties()
 
+  private lazy val writesCounter = Kamon.counter("kafka-writes").withoutTags()
+
   props.put("bootstrap.servers", getKafkaWriterServer)
   props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
   props.put("value.serializer", classOf[KafkaAvroSerializer])
@@ -23,6 +26,8 @@ trait KafkaMetricsWriter extends MetricsWriter with KafkaWriterConfig {
   val callback: Callback = (_: RecordMetadata, exception: Exception) => {
     if (exception != null) {
       log.warn(s"could not produce a record: $exception")
+    } else {
+      writesCounter.increment()
     }
   }
 
