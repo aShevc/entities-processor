@@ -13,4 +13,6 @@ object KafkaMetricsGeneratorApp extends App {
   }
 
   KMGApp.generateFixedAmount()
+
+  System.exit(0)
 }
