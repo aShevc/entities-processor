@@ -1,4 +1,40 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.6.2"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -15,8 +51,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1584445615428,
+  "id": null,
+  "iteration": 1584540888592,
   "links": [
     {
       "asDropdown": true,
@@ -34,7 +70,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -44,13 +80,6 @@
       "id": 40,
       "panels": [],
       "repeat": "dc",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "title": "Operational Latencies",
       "type": "row"
     },
@@ -97,7 +126,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Monitor `p75` latencies to get a view of the cluster's typical operating latencies.\n\nMonitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\n##### Required Actions\n\nIf `p95` read latency metrics spike, investigate:\n\n* Disk contention.\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Inefficient read patterns.\n* Back pressure.",
       "editable": true,
       "error": false,
@@ -136,13 +165,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -269,7 +291,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Monitor `p75` latencies to get a view of the cluster's typical operating latencies.\n\nMonitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\n##### Required Actions\n\nIf `p95` write latency metrics spike, investigate:\n\n* Disk contention.\n* Counter usage.\n* Lightweight transaction usage.\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Back pressure.",
       "editable": true,
       "error": false,
@@ -308,13 +330,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -439,7 +454,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Monitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\n##### Required Actions\n\nIf experiencing issues with this graph, use the additional TLP graphs to detect issues with the specific request type that triggered the alert.",
       "editable": true,
       "error": false,
@@ -478,13 +493,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -552,7 +560,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -562,13 +570,6 @@
       "id": 41,
       "panels": [],
       "repeat": "dc",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "title": "Operation Counts",
       "type": "row"
     },
@@ -577,7 +578,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Display the number of read requests by data center.\n\n##### Values\n\nChanges in this graph should match closely with application load.",
       "editable": true,
       "error": false,
@@ -616,13 +617,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -684,7 +678,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Display the number of write requests by data center.\n\n##### Values\n\nChanges in this graph should match closely with application load.",
       "editable": true,
       "error": false,
@@ -723,13 +717,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -791,7 +778,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Display the number of other requests by data center.\n\n##### Values\n\nChanges in this graph should match closely with application load.",
       "editable": true,
       "error": false,
@@ -830,13 +817,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -895,7 +875,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -905,13 +885,6 @@
       "id": 42,
       "panels": [],
       "repeat": "dc",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "title": "Other Important Metrics",
       "type": "row"
     },
@@ -958,7 +931,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Display the number of dropped messages per request type, by data center.\n\n##### Values\n\nA ideal value of `0` means that no requests have been dropped.\n\n##### Required Actions\n\nValues higher than `0` indicates an under-provisioned cluster for the specific request types. Under-provisioned clusters often times will experience the following issues that cause dropped messages:\n\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Inefficient read patterns.\n* Back pressure.",
       "editable": true,
       "error": false,
@@ -997,13 +970,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -1076,7 +1042,7 @@
           "value": "current"
         }
       ],
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "This graph displays the `max` size of a partition across all nodes and tables.\n\n##### Values\n\nThe max size of the row must be taken into account when calculating the amount of required heap space.\n\nWhile the maximum number of partition cells (CQL rows x CQL columns) is limited to 2 billion and a single column value is restricted to 2GB, the real-world limitation exists at around 100MB partitions.\n\nOnce partitions grow to more than 100MB:\n\n* Row caching can quickly be busted as a single row can consume all of the allocated row cache heap space.\n* Out of Memory exceptions may occur frequently as a single row may take over the majority of the heap space.\n* CPU and disk load may increase as multiple passes may be needed to load a row into memory.\n* Compactions may cause heap pressure as rows are read into memory before being written to the new SSTables.",
       "fontSize": "80%",
       "gridPos": {
@@ -1090,13 +1056,6 @@
       "links": [],
       "options": {},
       "pageSize": 50,
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "scroll": true,
       "showHeader": true,
       "sort": {
@@ -1145,7 +1104,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -1179,13 +1138,6 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "scopedVars": {
-        "dc": {
-          "selected": true,
-          "text": "data_center",
-          "value": "data_center"
-        }
-      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -1243,7 +1195,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1261,7 +1213,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "@Alex/@Alain, why `.runs`, instead `.time`?",
       "editable": true,
       "error": false,
@@ -1355,7 +1307,7 @@
       }
     }
   ],
-  "refresh": "5m",
+  "refresh": "30s",
   "schemaVersion": 22,
   "style": "dark",
   "tags": [
@@ -1366,11 +1318,8 @@
     "list": [
       {
         "allValue": null,
-        "current": {
-          "text": "environment",
-          "value": "environment"
-        },
-        "datasource": "prometheus",
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "hide": 0,
         "includeAll": false,
@@ -1391,11 +1340,8 @@
       },
       {
         "allValue": "",
-        "current": {
-          "text": "data_center",
-          "value": "data_center"
-        },
-        "datasource": "prometheus",
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "hide": 0,
         "includeAll": false,
@@ -1416,12 +1362,8 @@
       },
       {
         "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": "prometheus",
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -1443,7 +1385,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {

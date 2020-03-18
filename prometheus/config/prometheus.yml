@@ -15,6 +15,12 @@ scrape_configs:
           environment: 'environment'
           data_center: 'data_center'
           host: 'cassandra'
+  - job_name: 'kafka'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['kafka:7071']
+        labels:
+          service: 'kafka'
   - job_name: 'metrics-processor'
     scrape_interval: 10s
     static_configs:
