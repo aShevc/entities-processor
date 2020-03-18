@@ -1,0 +1,1477 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 3,
+  "iteration": 1584445615428,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [
+        "tlp",
+        "cassandra"
+      ],
+      "title": "Other TLP Dashboards",
+      "type": "dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 40,
+      "panels": [],
+      "repeat": "dc",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "title": "Operational Latencies",
+      "type": "row"
+    },
+    {
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                100000
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "B",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "frequency": "60s",
+        "handler": 1,
+        "message": "Monitor `p75` latencies to get a view of the cluster's typical operating latencies.\n\nMonitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\nIf `p95` read latency metrics spike, investigate:\n\n* Disk contention.\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Inefficient read patterns.\n* Back pressure.",
+        "name": "Read latencies (by data center) alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "id": 0
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Monitor `p75` latencies to get a view of the cluster's typical operating latencies.\n\nMonitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\n##### Required Actions\n\nIf `p95` read latency metrics spike, investigate:\n\n* Disk contention.\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Inefficient read patterns.\n* Back pressure.",
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 1,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Read\", unit=\"75thPercentile\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Latency.p75",
+          "refId": "A",
+          "target": "aliasByNode(averageSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Read.Latency.75percentile, 3), 2, 8, 9, 10)",
+          "textEditor": false
+        },
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Read\", unit=\"95thPercentile\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "hide": false,
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Latency.p95",
+          "refId": "B",
+          "target": "aliasByNode(averageSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Read.Latency.95percentile, 3), 2, 8, 9, 10)",
+          "textEditor": false
+        },
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Read\", unit=\"99thPercentile\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "hide": false,
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Latency.p99",
+          "refId": "C",
+          "target": "aliasByNode(averageSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Read.Latency.99percentile, 3), 2, 8, 9, 10)",
+          "textEditor": false
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 100000
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Read latencies (by data center)",
+      "tooltip": {
+        "msResolution": false,
+        "shared": false,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "label": "Read latency",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                100000
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "B",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "frequency": "60s",
+        "handler": 1,
+        "message": "Monitor `p75` latencies to get a view of the cluster's typical operating latencies.\n\nMonitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\nIf `p95` write latency metrics spike, investigate:\n\n* Disk contention.\n* Counter usage.\n* Lightweight transaction usage.\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Back pressure.",
+        "name": "Write latencies (by data center) alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "id": 0
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Monitor `p75` latencies to get a view of the cluster's typical operating latencies.\n\nMonitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\n##### Required Actions\n\nIf `p95` write latency metrics spike, investigate:\n\n* Disk contention.\n* Counter usage.\n* Lightweight transaction usage.\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Back pressure.",
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Write\", unit=\"75thPercentile\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Latency.p75",
+          "refId": "A",
+          "target": "aliasByNode(averageSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Write.Latency.75percentile, 3), 2, 8, 9, 10)",
+          "textEditor": false
+        },
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Write\", unit=\"95thPercentile\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Latency.p95",
+          "refId": "B",
+          "target": "aliasByNode(averageSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Write.Latency.95percentile, 3), 2, 8, 9, 10)",
+          "textEditor": false
+        },
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Write\", unit=\"99thPercentile\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Latency.p99",
+          "refId": "C",
+          "target": "aliasByNode(averageSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Write.Latency.99percentile, 3), 2, 8, 9, 10)",
+          "textEditor": false
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 100000
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Write latencies (by data center)",
+      "tooltip": {
+        "msResolution": false,
+        "shared": false,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "label": "Write latency",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                100000
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "frequency": "60s",
+        "handler": 1,
+        "message": "Monitor `p75` latencies to get a view of the cluster's typical operating latencies.\n\nMonitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\nIf experiencing issues with this graph, use the additional TLP dashboards to detect issues with the specific request type that triggered the alert.",
+        "name": "All operations latencies (by data center) alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "id": 0
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Monitor the `p95` and `p99` latencies for anomalies to get an early indicator for potential issues.\n\n##### Required Actions\n\nIf experiencing issues with this graph, use the additional TLP graphs to detect issues with the specific request type that triggered the alert.",
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 3,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope!=\"Write\", scope!=\"Read\", unit=\"95thPercentile\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{host}}.{{scope}}.p95",
+          "refId": "A",
+          "target": "aliasByNode(averageSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.{CASRead,CASWrite,RangeSlice}.Latency.95percentile, 3), 2, 8, 9, 10)",
+          "textEditor": false
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 100000
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Other operations latencies (by data center)",
+      "tooltip": {
+        "msResolution": true,
+        "shared": false,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "label": "Operational latencies",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 41,
+      "panels": [],
+      "repeat": "dc",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "title": "Operation Counts",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Display the number of read requests by data center.\n\n##### Values\n\nChanges in this graph should match closely with application load.",
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 6
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Read\", unit=\"OneMinuteRate\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Requests.m1",
+          "refId": "A",
+          "target": "aliasByNode(sumSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Read.Latency.1MinuteRate, 3), 2, 8)"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Read request counts (by data center)",
+      "tooltip": {
+        "msResolution": true,
+        "shared": false,
+        "sort": 1,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "opm",
+          "label": "Read counts",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Display the number of write requests by data center.\n\n##### Values\n\nChanges in this graph should match closely with application load.",
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 6
+      },
+      "hiddenSeries": false,
+      "id": 33,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope=\"Write\", unit=\"OneMinuteRate\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{scope}}.Requests.m1",
+          "refId": "A",
+          "target": "aliasByNode(sumSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.Write.Latency.1MinuteRate, 3), 2, 8)"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Write request counts (by data center)",
+      "tooltip": {
+        "msResolution": true,
+        "shared": false,
+        "sort": 1,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "opm",
+          "label": "Write counts",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Display the number of other requests by data center.\n\n##### Values\n\nChanges in this graph should match closely with application load.",
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 6
+      },
+      "hiddenSeries": false,
+      "id": 34,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(org_apache_cassandra_metrics_ClientRequest_Latency{environment=\"$env\", data_center=\"$dc\", scope!=\"Read\", scope!=\"Write\", unit=\"OneMinuteRate\"}) by (environment, data_center, scope)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{host}}.{{scope}}.m1",
+          "refId": "A",
+          "target": "aliasByNode(sumSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ClientRequest.{CASRead,CASWrite,RangeSlice}.Latency.1MinuteRate, 3), 2, 8)"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Other request counts (by data center)",
+      "tooltip": {
+        "msResolution": true,
+        "shared": false,
+        "sort": 1,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "opm",
+          "label": "Other counts",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 42,
+      "panels": [],
+      "repeat": "dc",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "title": "Other Important Metrics",
+      "type": "row"
+    },
+    {
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                15
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "frequency": "60s",
+        "handler": 1,
+        "message": "Display the number of dropped messages per request type, by data center.\n\nA ideal value of `0` means that no requests have been dropped.\n\nValues higher than `0` indicates an under-provisioned cluster for the specific request types. Under-provisioned clusters often times will experience the following issues that cause dropped messages:\n\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Inefficient read patterns.\n* Back pressure.",
+        "name": "Dropped messages (by data center) alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "id": 0
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Display the number of dropped messages per request type, by data center.\n\n##### Values\n\nA ideal value of `0` means that no requests have been dropped.\n\n##### Required Actions\n\nValues higher than `0` indicates an under-provisioned cluster for the specific request types. Under-provisioned clusters often times will experience the following issues that cause dropped messages:\n\n* Frequent garbage collections.\n* Prolonged garbage collection times.\n* Inefficient read patterns.\n* Back pressure.",
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 5,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(org_apache_cassandra_metrics_DroppedMessages_Dropped{environment=\"$env\", data_center=\"$dc\"}) by (environment, data_center, message_type)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{message_type}}",
+          "refId": "A",
+          "target": "aliasByNode(sumSeriesWithWildcards(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.DroppedMessage.*.Dropped.1MinuteRate, 3), 2, 8)",
+          "textEditor": false
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 15
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Dropped messages (by data center)",
+      "tooltip": {
+        "msResolution": false,
+        "shared": false,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "opm",
+          "label": "Dropped messages",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [
+        {
+          "text": "Current",
+          "value": "current"
+        }
+      ],
+      "datasource": null,
+      "description": "This graph displays the `max` size of a partition across all nodes and tables.\n\n##### Values\n\nThe max size of the row must be taken into account when calculating the amount of required heap space.\n\nWhile the maximum number of partition cells (CQL rows x CQL columns) is limited to 2 billion and a single column value is restricted to 2GB, the real-world limitation exists at around 100MB partitions.\n\nOnce partitions grow to more than 100MB:\n\n* Row caching can quickly be busted as a single row can consume all of the allocated row cache heap space.\n* Out of Memory exceptions may occur frequently as a single row may take over the majority of the heap space.\n* CPU and disk load may increase as multiple passes may be needed to load a row into memory.\n* Compactions may cause heap pressure as rows are read into memory before being written to the new SSTables.",
+      "fontSize": "80%",
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 11
+      },
+      "hideTimeOverride": true,
+      "id": 36,
+      "links": [],
+      "options": {},
+      "pageSize": 50,
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 1,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Partition Size",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": {
+            "0": "rgba(72, 191, 2, 0.85)",
+            "1": "rgb(205, 132, 6)",
+            "2": "rgb(203, 0, 0)"
+          },
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "pattern": "Current",
+          "thresholds": [
+            "50000000",
+            "100000000"
+          ],
+          "type": "number",
+          "unit": "decbytes"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "max(org_apache_cassandra_metrics_Table_MaxRowSize{environment=\"$env\", data_center=\"$dc\"}) by (environment, data_center, host, keyspace, table)",
+          "format": "table",
+          "legendFormat": "",
+          "refId": "A",
+          "target": "aliasByNode(cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ColumnFamily.*.*.MaxRowSize.value, 2, 3, 9, 10)",
+          "textEditor": false
+        }
+      ],
+      "timeShift": "1m",
+      "title": "Max partition size (by node and table)",
+      "transform": "table",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 37,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "dc": {
+          "selected": true,
+          "text": "data_center",
+          "value": "data_center"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(org_apache_cassandra_metrics_Table_PendingCompactions{environment=\"$env\", data_center=\"$dc\"}) by (environment, data_center, host)",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{host}}.PendingCompactions",
+          "refId": "A",
+          "target": "cassandra.$env.$dc.$host.org.apache.cassandra.metrics.ColumnFamily.all.PendingCompactions.value"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Pending Compactions (by host)",
+      "tooltip": {
+        "shared": false,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 45,
+      "panels": [],
+      "repeat": null,
+      "title": "JVM ParNew CMS GC Stats",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "@Alex/@Alain, why `.runs`, instead `.time`?",
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "hiddenSeries": false,
+      "id": 18,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "show": false,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "deriv(jvm_gc_ParNew{environment=\"$env\", data_center=\"$dc\", unit=\"CollectionTime\"}[1m])",
+          "format": "time_series",
+          "legendFormat": "{{environment}}.{{data_center}}.{{host}}.ParNew.{{unit}}",
+          "refId": "A",
+          "target": "derivative(cassandra.$env.$dc.$host.jvm.gc.ParNew.runs)"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "JVM ParNew runs",
+      "tooltip": {
+        "msResolution": false,
+        "shared": false,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": "Garbage collection times",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": "5m",
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "tlp",
+    "cassandra"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "text": "environment",
+          "value": "environment"
+        },
+        "datasource": "prometheus",
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Environment",
+        "multi": false,
+        "name": "env",
+        "options": [],
+        "query": "label_values(org_apache_cassandra_metrics_Storage_Load, environment)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": true
+      },
+      {
+        "allValue": "",
+        "current": {
+          "text": "data_center",
+          "value": "data_center"
+        },
+        "datasource": "prometheus",
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Center",
+        "multi": false,
+        "name": "dc",
+        "options": [],
+        "query": "label_values(org_apache_cassandra_metrics_Storage_Load, data_center)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "prometheus",
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Host",
+        "multi": false,
+        "name": "host",
+        "options": [],
+        "query": "label_values(org_apache_cassandra_metrics_Storage_Load, host)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Cassandra - Overview",
+  "version": 3
+}

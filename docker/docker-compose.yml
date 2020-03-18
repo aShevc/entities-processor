@@ -12,7 +12,6 @@ services:
     image: confluentinc/cp-kafka:5.4.0
     depends_on:
       - zookeeper
-      - influxdb
     ports:
       - 9092:9092
     environment:
@@ -43,34 +42,38 @@ services:
       cassandra
     volumes:
       - ../cassandra/src/main/resources/cassandra:/opt/metrics-processor/cassandra
-    depends_on:
-      - influxdb
+      - ../cassandra/config/prometheus.yml:/prometheus/prometheus.yml
+      - ./data/cassandra:/var/lib/cassandra
+      - ../cassandra/lib/jmx_prometheus_javaagent-0.12.0.jar:/prometheus/jmx_prometheus_javaagent-0.12.0.jar
     ports:
       - 9042:9042
       - 7199:7199
+      - 7070:7070
     networks:
       metrics-processor-net:
         ipv4_address: 172.21.0.5
-  influxdb:
-    image: influxdb:1.7.10
-    ports:
-      - "8083:8083"
-      - "8086:8086"
-    environment:
-      INFLUXDB_GRAPHITE_ENABLED: "true"
-      INFLUXDB_DB: kamon
-    networks:
-      metrics-processor-net:
-        ipv4_address: 172.21.0.6
   grafana:
     image: grafana/grafana:6.6.2
+    user: root
     ports:
       - "3000:3000"
-    depends_on:
-      - influxdb
+    volumes:
+      - ./data/grafana:/var/lib/grafana
     networks:
       metrics-processor-net:
         ipv4_address: 172.21.0.7
+  prometheus:
+    build:
+      prometheus
+    user: root
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./data/prometheus:/prometheus
+      - ../prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      metrics-processor-net:
+        ipv4_address: 172.21.0.8
 networks:
   metrics-processor-net:
     driver: bridge

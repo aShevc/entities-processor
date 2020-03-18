@@ -1,0 +1,40 @@
+global:
+  scrape_interval:     30s
+  evaluation_interval: 15s
+  # scrape_timeout is set to the global default (10s).
+
+scrape_configs:
+
+  - job_name: 'cassandra'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['cassandra:7070']
+        labels:
+          service: 'cassandra'
+          component: 'cassandra'
+          environment: 'environment'
+          data_center: 'data_center'
+          host: 'cassandra'
+  - job_name: 'metrics-processor'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['172.21.0.1:9095']
+        labels:
+          service: 'metrics-processor-log-generator'
+      - targets: ['172.21.0.1:9096']
+        labels:
+          service: 'metrics-processor-kafka-generator'
+      - targets: ['172.21.0.1:9097']
+        labels:
+          service: 'metrics-processor-kafka-listener'
+      - targets: ['172.21.0.1:9098']
+        labels:
+          service: 'metrics-processor-cassandra-writer'
+
+#      - targets: ['cassandra:9103']
+#        labels:
+#          service: 'cassandra'
+#          component: 'collectd'
+#          environment: 'environment'
+#          data_center: 'data_center'
+#          host: 'cassandra'

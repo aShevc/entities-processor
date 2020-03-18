@@ -1,11 +1,17 @@
 package org.metricsproc.examples
 
+import com.typesafe.config.ConfigFactory
 import kamon.Kamon
 import org.metricsproc.core.writer.LogWriter
 import org.metricsproc.kafka.listener.KafkaMetricsListener
 import org.slf4j.LoggerFactory
 
 object KafkaMetricsListenerApp extends App {
+
+  val customConfig = ConfigFactory.load("application.conf")
+  val codeConfig = ConfigFactory.parseString("kamon.prometheus.embedded-server.port = 9097")
+
+  Kamon.reconfigure(codeConfig.withFallback(customConfig))
 
   Kamon.init()
 

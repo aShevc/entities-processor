@@ -12,5 +12,5 @@ object LogMetricsGeneratorApp extends App {
     override def getConfigPrefix: String = "metricsproc.log-generator-app"
   }
 
-  LMGApp.generateFixedAmount()
+  LMGApp.generate()
 }

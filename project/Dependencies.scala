@@ -11,7 +11,7 @@ object Dependencies {
     "com.github.scopt" %% "scopt" % "4.0.0-RC2",
     "io.kamon" %% "kamon-core" % "2.0.5",
     "io.kamon" %% "kamon-status-page" % "2.0.5",
-    "io.kamon" %% "kamon-influxdb" % "2.0.0"
+    "io.kamon" %% "kamon-prometheus" % "2.0.1"
   )
 
   val kafkaDependencies = Seq(

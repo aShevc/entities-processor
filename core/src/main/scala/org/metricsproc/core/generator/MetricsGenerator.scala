@@ -1,6 +1,6 @@
 package org.metricsproc.core.generator
 
-import org.metricsproc.core.util.GeneratorConfig
+import org.metricsproc.core.util.{AFAP, GeneratorConfig, WithRate}
 import org.metricsproc.core.writer.MetricsWriter
 import org.metricsproc.metric.Metric
 import org.slf4j.LoggerFactory
@@ -14,7 +14,14 @@ trait MetricsGenerator extends GeneratorConfig {
 
   val rnd = new Random()
 
-  def generateWithSampleRate() {
+  def generate(): Unit = {
+    getGeneratorMode match {
+      case AFAP => generateAFAP()
+      case WithRate => generateWithSampleRate()
+    }
+  }
+
+  private def generateWithSampleRate(): Unit = {
 
     log.info(s"Started generating metrics with config\n$getGeneratorConfig")
 
@@ -30,7 +37,7 @@ trait MetricsGenerator extends GeneratorConfig {
     closeWriter()
   }
 
-  def generateFixedAmount(): Unit = {
+  private def generateAFAP(): Unit = {
 
     log.info(s"Started generating metrics with config\n$getGeneratorConfig")
 
