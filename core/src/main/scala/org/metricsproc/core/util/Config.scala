@@ -5,9 +5,11 @@ import scala.jdk.CollectionConverters._
 
 trait Config {
 
-  def getConfigPrefix: String
+  def getConfigPrefix: String = "metricsproc"
 
-  lazy val config: TypesafeConfig = ConfigFactory.load()
+  def getCustomConfigFile: Option[String] = None
+
+  lazy val config: TypesafeConfig = getCustomConfigFile.map(ConfigFactory.load).getOrElse(ConfigFactory.load)
 
   // config helpers
   protected def getString(path: String): Option[String] = get(path, _.getString)
