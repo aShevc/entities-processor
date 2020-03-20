@@ -1,8 +1,8 @@
-CREATE KEYSPACE metrics_processor WITH REPLICATION = {'class':'SimpleStrategy', 'replication_factor': 1};
+CREATE KEYSPACE entities_processor WITH REPLICATION = {'class':'SimpleStrategy', 'replication_factor': 1};
 
-USE metrics_processor;
+USE entities_processor;
 
-CREATE TABLE metrics_temperature (
+CREATE TABLE temperature_metrics (
 	device_id TEXT,
 	date TEXT,
 	time TIMESTAMP,

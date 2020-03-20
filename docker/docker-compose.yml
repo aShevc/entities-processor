@@ -6,7 +6,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      metrics-processor-net:
+      entities-processor-net:
         ipv4_address: 172.21.0.2
   kafka:
     image: confluentinc/cp-kafka:5.4.0
@@ -26,7 +26,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_OPTS: -javaagent:/prometheus/jmx_prometheus_javaagent-0.12.0.jar=7071:/prometheus/prometheus.yml
     networks:
-      metrics-processor-net:
+      entities-processor-net:
         ipv4_address: 172.21.0.3
   schema-registry:
     image: confluentinc/cp-schema-registry:5.4.0
@@ -40,13 +40,13 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
       SCHEMA_REGISTRY_DEBUG: "true"
     networks:
-      metrics-processor-net:
+      entities-processor-net:
         ipv4_address: 172.21.0.4
   cassandra:
     build:
       cassandra
     volumes:
-      - ../cassandra/src/main/resources/cassandra:/opt/metrics-processor/cassandra
+      - ../cassandra/src/main/resources/cassandra:/opt/entities-processor/cassandra
       - ../cassandra/config/prometheus.yml:/prometheus/prometheus.yml
       - ./data/cassandra:/var/lib/cassandra
       - ../jmx_exporter/lib/jmx_prometheus_javaagent-0.12.0.jar:/prometheus/jmx_prometheus_javaagent-0.12.0.jar
@@ -55,7 +55,7 @@ services:
       - 7199:7199
       - 7070:7070
     networks:
-      metrics-processor-net:
+      entities-processor-net:
         ipv4_address: 172.21.0.5
   grafana:
     image: grafana/grafana:6.6.2
@@ -65,7 +65,7 @@ services:
     volumes:
       - ./data/grafana:/var/lib/grafana
     networks:
-      metrics-processor-net:
+      entities-processor-net:
         ipv4_address: 172.21.0.6
   prometheus:
     build:
@@ -77,10 +77,10 @@ services:
       - ./data/prometheus:/prometheus
       - ../prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
-      metrics-processor-net:
+      entities-processor-net:
         ipv4_address: 172.21.0.7
 networks:
-  metrics-processor-net:
+  entities-processor-net:
     driver: bridge
     ipam:
       driver: default

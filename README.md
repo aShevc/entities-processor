@@ -1,7 +1,7 @@
-# Metrics Processor
+# Entity Processor
 
 ## Overview and purpose
-Metrics Processor is a project developed for scaffolding JVM based applications that are built on top of distributed
+Entity Processor is a project developed for scaffolding JVM based applications that are built on top of distributed
 infrastructure. More specifically, the project can be used as a templating tool for building and testing out data
 pipelines. This tool may be used to accomplish the following objectives:
 
@@ -33,7 +33,7 @@ sbt apps/run
 Then, in the interactive console, choose one of the main classes to run, or run the chosen app like this:
 
 ```
-sbt "apps/runMain org.metricsproc.apps.LogMetricsGeneratorApp"
+sbt "apps/runMain org.entityproc.apps.LogEntityGeneratorApp"
 ```
 
 ## Concepts
@@ -55,9 +55,9 @@ In the example presented in this project, the key entity is presented as a metri
 reporting device temperature and it looks like this:
 
 ```
-{"namespace": "org.metricsproc.metric",
+{"namespace": "org.entityproc.entity",
  "type": "record",
- "name": "Metric",
+ "name": "Entity",
  "fields": [
      {"name": "device_id", "type": "string"},
      {"name": "temperature",  "type": "int"},
@@ -66,7 +66,7 @@ reporting device temperature and it looks like this:
 }
 ```
 
-One may customize project's key entity by modifying its Avro representation here: `core/src/main/avro/metric.avsc`
+One may customize project's key entity by modifying its Avro representation here: `core/src/main/avro/entity.avsc`
 and generating new Java sources like so:
 
 ```
@@ -96,8 +96,8 @@ Generator options can be configured via appropriate configurations:
   sample-rate = 100
   // Amounts of seconds during which to generate entities
   duration = 3600
-  // Amounts of metrics to generate in the AFAP mode 
-  metrics-amount = 100000000
+  // Amounts of entities to generate in the AFAP mode 
+  entities-amount = 100000000
   // For each new message, default entity generator will write a new device id until devices-amount is reached.
   // After then, it will increase timestamp field by one second and start from the first posted device id again
   devices-amount = 10000
@@ -105,7 +105,7 @@ Generator options can be configured via appropriate configurations:
 
 ### Writers
 Writers are responsible for pushing key entity messages into any external infrastructure (database, message queue, etc.).
-In order to create a custom writer to be used with the entity generator, create a Scala trait that extends `MetricsWriter`
+In order to create a custom writer to be used with the entity generator, create a Scala trait that extends `EntitiesWriter`
 interface. One may see `LogWriter` example provided in the `core` module.
 
 Also in case if custom properties need to be provided for a writer, one will need to implement its custom config
@@ -119,7 +119,7 @@ trait SomeWriterConfig extends Config {
 def getSomeProperty = ...
 
 
-trait SomeWriter extends MetricsWriter with SomeWriterConfig {
+trait SomeWriter extends EntitiesWriter with SomeWriterConfig {
 ...
  getSomeProperty
 
@@ -131,12 +131,12 @@ See `LogWriterConfig` and
 ### Listeners
 Listeners are responsible for consuming key entity messages from external infrastructure pieces. In order to create a 
 custom listener that can output consumed messages into another external system, the listener declaration should be
-accompanied with a `MetricsWriter` trait *self type* like so:
+accompanied with a `EntitiesWriter` trait *self type* like so:
  
 ```
 ...
    trait SomeListener {
-     this: MetricsWriter =>
+     this: EntitiesWriter =>
 ...
 ``` 
  
@@ -158,7 +158,7 @@ def getSomeProperty = ...
 
 
 trait SomeListener extends SomeListenerConfig {
-  this: MetricsWriter =>
+  this: EntitiesWriter =>
 ...
  getSomeProperty
 
@@ -169,25 +169,25 @@ trait SomeListener extends SomeListenerConfig {
 #### Implementation and usage
 In order to create an application that may use implemented entity generator as well as writer and listener components,
 one needs to implement an app as the Scala application (by extending `App` trait), and within it construct a Scala
-object consisting of the desired components. For example, consider `KafkaMetricsGeneratorApp` provided in the `example`
+object consisting of the desired components. For example, consider `KafkaEntitiesGeneratorApp` provided in the `example`
 module:
 
 ```
   ...
-  object KMGApp extends KamonApp with KafkaMetricsWriter with MetricsGenerator
+  object KMGApp extends KamonApp with KafkaEntitiesWriter with EntitiesGenerator
   ...
 ```
 Let's consider used components here.
 
 - At first we are using `KamonApp` trait, which allows us to add [monitoring](#monitoring) functionality for our
 application
-- Then we are extending `KafkaMetricsWriter` stating that we want to output messages into Kafka as an external system
-- And we want to generate messages ourselves, therefore `MetricsGenerator` trait will be used. If we were to consume
-entity messages from another application, for example, another Kafka topic, we would have used `KafkaMetricsListener`
+- Then we are extending `KafkaEntitiesWriter` stating that we want to output messages into Kafka as an external system
+- And we want to generate messages ourselves, therefore `EntitiesGenerator` trait will be used. If we were to consume
+entity messages from another application, for example, another Kafka topic, we would have used `KafkaEntitiesListener`
 there instead.
 
 From here, in order to launch an application, there are two options.
-In case if messages are originated from MetricsGenerator, call
+In case if messages are originated from EntitiesGenerator, call
 
 ```
 app.generate()
@@ -256,6 +256,12 @@ applications config file.
 - Prometheus config for Kafka and Cassandra services can be found at the `cassandra/config/prometheus.yml` and 
 `kafka/config/prometheus.yml` files. Metrics port are configured for Kafka in the `KAFKA_OPTS` variable of the Docker
 Compose, and for Cassandra in its `docker/cassandra/Dockerfile`.
+
+One may also re-configure Prometheus config yml file and apply changes when application is running by executing:
+
+```
+./docker/reload-prometheus-config.sh
+```
 
 ## Docker
 The project ships with the Docker compose file that can start up the following containers:

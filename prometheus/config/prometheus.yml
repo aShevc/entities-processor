@@ -21,21 +21,21 @@ scrape_configs:
       - targets: ['kafka:7071']
         labels:
           service: 'kafka'
-  - job_name: 'metrics-processor'
+  - job_name: 'entities-processor'
     scrape_interval: 10s
     static_configs:
       - targets: ['172.21.0.1:9095']
         labels:
-          service: 'metrics-processor-log-generator'
+          service: 'entities-processor-log-generator'
       - targets: ['172.21.0.1:9096']
         labels:
-          service: 'metrics-processor-kafka-generator'
+          service: 'entities-processor-kafka-generator'
       - targets: ['172.21.0.1:9097']
         labels:
-          service: 'metrics-processor-kafka-listener'
+          service: 'entities-processor-kafka-listener'
       - targets: ['172.21.0.1:9098']
         labels:
-          service: 'metrics-processor-cassandra-writer'
+          service: 'entities-processor-cassandra-writer'
 
 #      - targets: ['cassandra:9103']
 #        labels:

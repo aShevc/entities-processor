@@ -1,9 +1,0 @@
-{"namespace": "org.metricsproc.metric",
- "type": "record",
- "name": "Metric",
- "fields": [
-     {"name": "device_id", "type": "string"},
-     {"name": "temperature",  "type": "int"},
-     {"name": "timestamp", "type": "long"}
- ]
-}
