@@ -1,4 +1,4 @@
-package org.metricsproc.examples
+package org.metricsproc.app
 
 import org.metricsproc.core.generator.MetricsGenerator
 import org.metricsproc.core.util.KamonApp

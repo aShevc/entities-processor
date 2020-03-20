@@ -27,18 +27,18 @@ sbt compile
 In order to run one of the [example apps](#apps), run:
 
 ```
-sbt examples/run
+sbt apps/run
 ```
 
 Then, in the interactive console, choose one of the main classes to run, or run the chosen app like this:
 
 ```
-sbt "examples/runMain org.metricsproc.examples.LogMetricsGeneratorApp"
+sbt "apps/runMain org.metricsproc.apps.LogMetricsGeneratorApp"
 ```
 
 ## Concepts
 
-Logically, the project is divided to `core` module and `examples` module, dedicated for layering out the resulting
+Logically, the project is divided to `core` module and `apps` module, dedicated for layering out the resulting
 applications. Other modules are created per infrastructure tool that you want to be able to use within this project.
 Currently, the project has `cassandra` and `kafka` modules implemented. 
 
@@ -201,7 +201,7 @@ app.listen()
 
 #### Configuration and configuration files
 
-Default configurations of the applications may be found in `examples/src/main/resources/reference.conf` file.
+Default configurations of the applications may be found in `apps/src/main/resources/reference.conf` file.
 Additionally, there is an ability to provide a custom file for overriding default configuration by adding the following
 to the resulting app object's body:
 
