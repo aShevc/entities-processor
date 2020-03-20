@@ -10,7 +10,6 @@ object Dependencies {
     "org.apache.avro" % "avro" % "1.9.1",
     "com.github.scopt" %% "scopt" % "4.0.0-RC2",
     "io.kamon" %% "kamon-core" % "2.0.5",
-    "io.kamon" %% "kamon-status-page" % "2.0.5",
     "io.kamon" %% "kamon-prometheus" % "2.0.1"
   )
 

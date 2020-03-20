@@ -66,7 +66,7 @@ services:
       - ./data/grafana:/var/lib/grafana
     networks:
       metrics-processor-net:
-        ipv4_address: 172.21.0.7
+        ipv4_address: 172.21.0.6
   prometheus:
     build:
       prometheus
@@ -78,7 +78,7 @@ services:
       - ../prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       metrics-processor-net:
-        ipv4_address: 172.21.0.8
+        ipv4_address: 172.21.0.7
 networks:
   metrics-processor-net:
     driver: bridge
